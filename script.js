@@ -7,7 +7,7 @@ async function getRandomMeal(){
     const responseData = await response.json();
     const randomMeal = responseData.meals[0];
     console.log(randomMeal);
-    addMeal(rabdonMeal, true);
+    addMeal(randomMeal, true);
 }
 
 async function getMealById(id){
@@ -18,22 +18,44 @@ async function getMealBySearch(term){
     const meals = await fetch('https://www.themealdb.com/api/json/v1/1/search.php?s='+term);
 }
 
-addMeal(mealData, random = false){
+function addMeal(mealData, random = false){
     const meal = document.createElement('div');
     meal.classList.add('meal');
-    meal.innerHTML = 
-    <div class="meal">
+    meal.innerHTML = `
         <div class="meal-header">
-            <span class="random">
-                Random Recipe
-            </span>
-            <img src="https://www.themealdb.com/images/media/meals/xxpqsy1511452222.jpg" alt=""/>
+            ${random ? `<span class="random"> Random Recipe </span>` : ''}
+            <img src="${mealData.strMealThumb}" alt="${mealData.strMeal}"/>
         </div>
         <div class="meal-body">
-            <h4>Veggies</h4>
+            <h4>${mealData.strMeal}</h4>
             <button class="fav-btn">
                 <i class="fas fa-heart"> </i>
             </button>
         </div>
-    </div>
+    `;
+
+    const btn =  meal.querySelector(".meal-body .fav-btn");
+    btn.addEventListener("click", () => {
+       btn.classList.toggle("active");
+    });
+
+    meals.appendChild(meal);
+}
+
+function addMealToLS(mealId){
+    const mealIds = getMealsFromLS();
+
+    localStorage.setItem('mealIds', JSON.stringify([...mealIds, mealId]));
+}
+
+function removeMealToLS(mealId){
+    const mealIds = getMealsFromLS();
+
+    localStorage.setItem('mealIds', JSON.stringify(mealIds.filter(id => id !== mealId)));
+}
+
+function getMealsFromLS(){
+    const mealIds = JSON.parse(localStorage.getItem('mealIds'));
+
+    return mealIds;
 }
