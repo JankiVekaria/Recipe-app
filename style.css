@@ -40,18 +40,19 @@ header input{
     border: none;
     border-radius: 3px;
     padding: 0.5rem 1rem;
+    font-family: inherit;
 }
 
 header button{
     background-color: transparent;
-    color: #aaa;
+    color: rgb(138, 129, 141);
     border: none;
     margin-left: 10px;
     font-size: 1.5rem;
 }
 
 .fav-container{
-    padding: 1rem;
+    padding: 0.25rem 1rem;
     text-align: center;
     background-color: rgb(243, 225, 255);
 }
@@ -120,8 +121,15 @@ header button{
     margin: 0;
 }
 
-.meal-body button{
+.meal-body .fav-btn{
     border: none;
     background-color: transparent;
     font-size: 1.2rem;
+    color:rgb(197, 188, 188);
+    cursor: pointer;
+
+}
+
+.meal-body .fav-btn.active{
+    color: rebeccapurple;
 }
